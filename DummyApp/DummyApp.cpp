@@ -4,11 +4,28 @@
 #include <iostream>
 #include <conio.h>
 
+#include <windows.h>
+#include <shlwapi.h>
+
+#include <atlbase.h>
+#include <atlconv.h>
+
+#pragma comment(lib, "Shlwapi.lib")
+
 int main()
 {
-    std::cout << "Hello World! . . .\n";
+    WCHAR szPath[MAX_PATH + 1] = { 0, };
+    GetModuleFileNameW(GetModuleHandle(NULL), szPath, MAX_PATH);
+
+    LPWSTR wszFileName = PathFindFileNameW(szPath);
+    CW2A szFileName(wszFileName);
+
+    wprintf(L"%S \r\n", szFileName.m_psz);
     std::cout << "Press any key to close this window . . .\n";
+
+#ifndef _DEBUG
     _getch();
+#endif
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
